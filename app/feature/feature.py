@@ -109,10 +109,9 @@ async def convert(message: Message, bot: Bot):
 
 async def auto_convert(message: Message, bot: Bot):
     try:
-        reg_exp = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
-        if re.match(reg_exp, message.text):
+        if is_video_link(message.text) and not is_mp4_link(message.text):
             await video_check(message, bot, media.convert)
-    except Exception as exp:
+    except:
         pass
 
 

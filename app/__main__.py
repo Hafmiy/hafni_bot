@@ -8,9 +8,7 @@ from sqlalchemy.orm import close_all_sessions
 from app.config import load_config
 from app.config.logging_config import setup_logging
 from app.handlers import setup_handlers
-from app.middlewares import setup_middlewares
 from app.models.config.main import Paths
-from app.models.db import create_pool
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +20,7 @@ def main():
     config = load_config(paths)
 
     dp = Dispatcher()
-    setup_middlewares(dp, create_pool(config.db), config.bot)
+    # setup_middlewares(dp, create_pool(config.db), config.bot)
     setup_handlers(dp, config.bot)
     bot = Bot(
         token=config.bot.token,

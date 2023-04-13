@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from app.dao.base import BaseDAO
-from app.models.db import User
 from app.models import dto
+from app.models.db import User
 
 
 class UserDAO(BaseDAO[User]):

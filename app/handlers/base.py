@@ -4,11 +4,12 @@ from aiogram import Dispatcher, F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove, ContentType
-
 from aiogram.utils.markdown import html_decoration as hd
 
 from app.dao.holder import HolderDao
+from app.feature import setup_feature_dispatchers
 from app.models import dto
+from app.models.config.main import BotConfig
 from app.services.chat import update_chat_id
 
 logger = logging.getLogger(__name__)
@@ -48,8 +49,9 @@ async def chat_migrate(message: Message, chat: dto.Chat, dao: HolderDao):
     logger.info("Migrate chat from %s to %s", message.chat.id, new_id)
 
 
-def setup_base(dp: Dispatcher):
+def setup_base(dp: Dispatcher, bot_config: BotConfig):
     router = Router(name=__name__)
+    setup_feature_dispatchers(router, bot_config.superusers)
     router.message.register(start_cmd, Command("start"))
     router.message.register(
         chat_id, Command(commands=["idchat", "chat_id", "id"], prefix="/!"),

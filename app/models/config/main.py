@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -43,6 +44,10 @@ class Paths:
     @property
     def log_path(self) -> Path:
         return self.app_dir / "log"
+
+    @property
+    def temp_path(self) -> Path:
+        return self.app_dir / "temp"
 
 
 @dataclass

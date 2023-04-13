@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 
 from app.config.logging_config import setup_logging
-from app.models.config.main import Paths, Config
 from app.config.main import load_config
+from app.models.config.main import Paths, Config
 
 
 @pytest.fixture(scope="session", autouse=True)

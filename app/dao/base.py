@@ -1,10 +1,10 @@
-from sqlalchemy import delete, func
-from sqlalchemy.future import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, TypeVar, Type, Generic
 
-from app.models.db.base import Base
+from sqlalchemy import delete, func
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
+from app.models.db.base import Base
 
 Model = TypeVar('Model', Base, Base)
 

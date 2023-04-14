@@ -91,9 +91,7 @@ async def convert(message: Message, bot: Bot):
         fh.dispose()
 
 
-async def cut_video(message: Message, bot: Bot, args=None):
-    if args is None:
-        args = {}
+async def cut_video(message: Message, bot: Bot, **args: dict):
     try:
         fh = file_handler.FileHandler(message, bot)
     except BotLogicException as exp:

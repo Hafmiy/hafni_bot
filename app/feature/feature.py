@@ -30,10 +30,18 @@ async def delete(message: Message):
 async def create_mplus(message: Message):
     already_in_party = set()
     result = ''
+    roles = [1, 2, 3]
 
     def _roll_member():
         while True:
-            _member = random.choice(members)
+            your_place = -1
+            if len(roles) > 0:
+                your_place = random.choice(roles)
+                roles.remove(your_place)
+            if your_place == 3:
+                _member = 'Ты'
+            else:
+                _member = random.choice(members)
             if _member not in already_in_party:
                 already_in_party.add(_member)
                 return _member

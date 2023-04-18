@@ -15,7 +15,7 @@ from app.feature import file_handler, media
 from app.feature.exceptions.exceptions import BotLogicException, UserInputException
 from app.feature.untils.mime_util import *
 
-members = ["Ферал","Реноме","Хафний","Славик","Мунстик","Зирич","Тексер","Заец","Кот","Тигр","Пинки","Импрувед","Плюхен","Дарккипер","Сергей Блинов","Суса","Алриша","Настася","Влад","Перламутра","Джон","Юм","Ламун","Лиса","Саншаин","Виталик","Вуф","Допельгангер","Арти","Френк","Жирон","Ворки","Пушкарина","Антонидас","Саендра","Анидакс","Висперс","Аняняша","Курама","Мира","Лирали","Светич","Импрувед","Никита","Яхени","Кити"]
+members = ["Ферал","Реноме","Хафний","Славик","Мунстик","Зирич","Тексер","Заец","Кот","Тигр","Пинки","Импрувед","Плюхен","Дарккипер","Сергей Блинов","Суса","Алриша","Настася","Влад","Перламутра","Джон","Юм","Ламун","Лиса","Саншаин","Виталик","Вуф","Допельгангер","Арти","Френк","Жирон","Ворки","Пушкарина","Антонидас","Саендра","Анидакс","Висперс","Аняняша","Курама","Мира","Лирали","Светич","Импрувед","Никита","Яхени"]
 wow_class_spec = {"Вар" : ["Прот", "Фури", "Армс"], "Пал": ["Прот", "Ретри", "Холи"],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем", "Рестор"],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["Брю", "ВВ", "МВ"] ,"Друид" : ["Сова", "Медвед", "Пень", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли", "Блад"] ,"ДХ" : ["Хавок", "Венженс"],"Дракарис": ["ДД", "Хил"]}
 
 tanks = ["Вар Прот", "Пал Прот", "Монк Брю", "Друид Медвед", "ДК Блуд","ДХ Венженс",]
@@ -25,6 +25,28 @@ healers = ["Пал Холи","Шаман Рестор","Монк МВ","Друи
 
 async def delete(message: Message):
     await message.reply_to_message.delete()
+
+
+async def create_mplus(message: Message):
+    already_in_party = set()
+    result = ''
+
+    def _roll_member():
+        while True:
+            _member = random.choice(members)
+            if _member not in already_in_party:
+                already_in_party.add(_member)
+                return _member
+
+    result += 'Танк: ' + _roll_member() + " - " + random.choice(tanks) + "\n"
+    result += 'Хил: ' + _roll_member() + " - " + random.choice(healers) + "\n"
+    result += 'ДД:\n'
+    for i in range(3):
+        classes = list(dds.keys())
+        clas = random.choice(classes)
+        spec = random.choice(dds[clas])
+        result += _roll_member() + " - " + clas + " " + spec + "\n"
+    await message.reply(result)
 
 
 async def create_raid(message: Message):
@@ -116,7 +138,7 @@ async def auto_convert(message: Message, bot: Bot):
 
 
 async def mirror(message: Message, bot: Bot):
-    await hybrid_check(message.reply_to_message, bot, media.mirror_whole_image)
+    await hybrid_check(message.reply_to_message, bot, media.mirror_image)
 
 
 async def cut_tik_tok(message: Message, command: CommandObject, bot: Bot):
@@ -149,17 +171,17 @@ async def circle(message: Message, bot: Bot):
 
 
 async def kekpuk(message: Message, bot: Bot):
-    await hybrid_check(message.reply_to_message, bot, media.left_mirror)
-    await hybrid_check(message.reply_to_message, bot, media.right_mirror)
+    await hybrid_check(message.reply_to_message, bot, media.left_flip)
+    await hybrid_check(message.reply_to_message, bot, media.right_flip)
 
 
 async def pukkek(message: Message, bot: Bot):
-    await hybrid_check(message.reply_to_message, bot, media.top_mirror)
-    await hybrid_check(message.reply_to_message, bot, media.bottom_mirror)
+    await hybrid_check(message.reply_to_message, bot, media.top_flip)
+    await hybrid_check(message.reply_to_message, bot, media.bottom_flip)
 
 
 async def mirroring(message: Message, bot: Bot, command: CommandObject):
-    func = media.left_mirror if '/lmirr' in command.command else media.right_mirror
+    func = media.left_flip if '/lmirr' in command.command else media.right_flip
     await hybrid_check(message.reply_to_message, bot, func)
 
 

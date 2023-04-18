@@ -4,14 +4,14 @@ services:
   hafni_bot:
     container_name: hafni_bot
     restart: always
-    image: xivilaimax/hafni_bot:latest
+    image: xivilaimax/hafni_bot:1.0
     volumes:
       - type: "bind"
         source: "${HOME}/HafniBot/log"
         target: "/log"
       - type: "bind"
         source: "./config"
-        target: "/config"
+        target: "/tg_bot/config"
     entrypoint: [ "python3", "-m", "app"]
     extra_hosts:
       - "host.docker.internal:host-gateway"

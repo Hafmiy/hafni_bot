@@ -18,34 +18,30 @@ class Directions(Enum):
     BOTTOM = 3
 
 
-async def left_mirror(image_path: str, export_path: str):
-    return await __mirror_vertical(Directions.LEFT, Image.open(image_path), export_path)
+async def left_flip(image_path: str, export_path: str):
+    return await __flip_vertical(Directions.LEFT, Image.open(image_path), export_path)
 
 
-async def right_mirror(image_path: str, export_path: str):
-    return await __mirror_vertical(Directions.RIGHT, Image.open(image_path), export_path)
+async def right_flip(image_path: str, export_path: str):
+    return await __flip_vertical(Directions.RIGHT, Image.open(image_path), export_path)
 
 
-async def kek_puk(image_path: str, export_path: str):
-    return await __mirror_vertical(Directions.RIGHT, Image.open(image_path), export_path)
+async def top_flip(image_path: str, export_path: str):
+    return await __flip_horizontal(Directions.TOP, Image.open(image_path), export_path)
 
 
-async def top_mirror(image_path: str, export_path: str):
-    return await __mirror_horizontal(Directions.TOP, Image.open(image_path), export_path)
+async def bottom_flip(image_path: str, export_path: str):
+    return await __flip_horizontal(Directions.BOTTOM, Image.open(image_path), export_path)
 
 
-async def bottom_mirror(image_path: str, export_path: str):
-    return await __mirror_horizontal(Directions.BOTTOM, Image.open(image_path), export_path)
-
-
-async def mirror_whole_image(image_path: str, export_path: str):
+async def mirror_image(image_path: str, export_path: str):
     image = Image.open(image_path)
     image = image.transpose(Image.FLIP_LEFT_RIGHT)
     image.save(export_path, 'jpeg')
     image.close()
 
 
-async def __mirror_horizontal(direction: Directions, image: Image, path: str):
+async def __flip_horizontal(direction: Directions, image: Image, path: str):
     if direction is Directions.TOP:
         top_part = image.crop((0, 0, image.size[0], image.size[1] / 2))
         bottom_part = top_part.transpose(Image.FLIP_TOP_BOTTOM)
@@ -60,7 +56,7 @@ async def __mirror_horizontal(direction: Directions, image: Image, path: str):
     result.close()
 
 
-async def __mirror_vertical(direction: Directions, image: Image, path: str,):
+async def __flip_vertical(direction: Directions, image: Image, path: str, ):
     if direction is Directions.LEFT:
         left_part = image.crop((0, 0, image.size[0] / 2, image.size[1]))
         right_part = left_part.transpose(Image.FLIP_LEFT_RIGHT)

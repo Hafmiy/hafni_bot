@@ -12,6 +12,7 @@ def setup_feature_dispatchers(router: Router, superusers: list[int]):
     router.message.register(roll, Command(commands=['roll'],))
     router.message.register(delete, Command(commands=['d']), SuperuserFilter(superusers))
     router.message.register(roll_main, Command(commands=['roll_main']))
+    router.message.register(create_mplus, Command(commands=['create_mplus'],))
     router.message.register(create_raid, Command(commands=['create_raid']), SuperuserFilter(superusers))
     router.message.register(roll_things, Command(commands=['roll_things']))
     router.message.register(roll_member, Command(commands=['roll_member']))

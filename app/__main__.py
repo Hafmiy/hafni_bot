@@ -12,6 +12,8 @@ from app.models.config.main import Paths
 
 logger = logging.getLogger(__name__)
 
+version = '1.0.1'
+
 
 def main():
     paths = get_paths()
@@ -29,6 +31,7 @@ def main():
     )
 
     logger.info("started")
+    logger.info(f"version {version}")
     try:
         dp.run_polling(bot)
     finally:

@@ -12,7 +12,7 @@ from app.models.config.main import Paths
 
 logger = logging.getLogger(__name__)
 
-version = '1.0.2'
+version = '1.0.3'
 
 
 def main():

@@ -4,7 +4,7 @@ from aiogram import Dispatcher, Bot, Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from app.filters.superusers import is_superuser
+from app.feature.filter.superuser_filter import is_superuser
 from app.models.config.main import BotConfig
 
 

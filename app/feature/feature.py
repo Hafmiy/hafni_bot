@@ -13,13 +13,13 @@ from moviepy.editor import *
 
 from app.feature import file_handler, media
 from app.feature.exceptions.exceptions import BotLogicException, UserInputException
-from app.feature.untils.mime_util import *
+from app.feature.utils.mime_util import *
 
-members = ["Ферал","Реноме","Хафний","Славик","Мунстик","Зирич","Тексер","Заец","Кот","Тигр","Пинки","Импрувед","Плюхен","Дарккипер","Сергей Блинов","Суса","Алриша","Настася","Влад","Перламутра","Джон","Юм","Ламун","Лиса","Саншаин","Виталик","Вуф","Допельгангер","Арти","Френк","Жирон","Ворки","Пушкарина","Антонидас","Саендра","Анидакс","Висперс","Аняняша","Курама","Мира","Лирали","Светич","Импрувед","Никита","Яхени"]
+members = ["Ферал","Реноме","Хафний","Славик","Мунстик","Зирич","Тексер","Заец","Кот","Тигр","Пинки","Плюхен","Сергей Блинов","Суса","Алриша","Настася","Влад","Перламутра","Джон","Юм","Ламун","Лиса","Саншаин","Виталик","Вуф","Допельгангер","Арти","Жирон","Ворки","Антонидас","@saendra_m","Анидакс","Светич","Никита","Яхени"]
 wow_class_spec = {"Вар" : ["Прот", "Фури", "Армс"], "Пал": ["Прот", "Ретри", "Холи"],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем", "Рестор"],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["Брю", "ВВ", "МВ"] ,"Друид" : ["Сова", "Медвед", "Пень", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли", "Блад"] ,"ДХ" : ["Хавок", "Венженс"],"Дракарис": ["ДД", "Хил"]}
 
 tanks = ["Вар Прот", "Пал Прот", "Монк Брю", "Друид Медвед", "ДК Блуд","ДХ Венженс",]
-dds = {"Вар" : ["Фури", "Армс"], "Пал": ["Ретри",],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем",],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["ВВ",] ,"Друид" : ["Сова", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли",] ,"ДХ" : ["Хавок",],"Дракарис": ["ДД"]}
+dds = {"Вар" : ["Фури", "Армс"], "Пал": ["Ретри",],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем",],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["ВВ",] ,"Друид" : ["Сова", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли",] ,"ДХ" : ["Хавок",],"Дракарис": ["ДД", "АУГА"]}
 healers = ["Пал Холи","Шаман Рестор","Монк МВ","Друид Пень","Дракарис Хил"]
 
 
@@ -108,10 +108,13 @@ async def roll_main(message: Message, command: CommandObject):
 
 
 async def roll_things(message: Message, command: CommandObject):
-    if not message.reply_to_message:
-        things = command.args.split(" ")
-    else:
-        things = message.reply_to_message.text.split(" ")
+    try:
+        if not message.reply_to_message:
+            things = command.args.split(" ")
+        else:
+            things = message.reply_to_message.text.split(" ")
+    except (TypeError, AttributeError):
+        return
     return await message.reply(random.choice(things))
 
 
@@ -135,14 +138,6 @@ async def get_sup_timer(message: Message):
 
 async def convert(message: Message, bot: Bot):
     await video_check(message.reply_to_message, bot, media.convert)
-
-
-async def auto_convert(message: Message, bot: Bot):
-    try:
-        if is_video_link(message.text) and not is_mp4_link(message.text):
-            await video_check(message, bot, media.convert)
-    except:
-        pass
 
 
 async def mirror(message: Message, bot: Bot):

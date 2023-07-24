@@ -4,7 +4,7 @@ services:
   hafni_bot:
     container_name: hafni_bot
     restart: always
-    image: xivilaimax/hafni_bot:1.0
+    image: xivilaimax/hafni_bot:latest
     volumes:
       - type: "bind"
         source: "${HOME}/HafniBot/log"

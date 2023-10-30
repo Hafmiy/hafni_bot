@@ -47,6 +47,8 @@ class FileHandler:
         file_id = None
         if self.message.video:
             file_id = self.message.video.file_id
+        if self.message.video_note:
+            file_id = self.message.video_note.file_id
         elif self.message.animation:
             file_id = self.message.animation.file_id
         elif self.message.document:

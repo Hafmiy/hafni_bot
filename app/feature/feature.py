@@ -15,11 +15,11 @@ from app.feature import file_handler, media
 from app.feature.exceptions.exceptions import BotLogicException, UserInputException
 from app.feature.utils.mime_util import *
 
-members = ["Ферал","Реноме","Хафний","Славик","Мунстик","Зирич","Тексер","Заец","Кот","Тигр","Пинки","Плюхен","Сергей Блинов","Суса","Алриша","Настася","Влад","Перламутра","Джон","Юм","Ламун","Лиса","Саншаин","Виталик","Вуф","Допельгангер","Арти","Жирон","Ворки","Антонидас","@saendra_m","Анидакс","Светич","Никита","Яхени"]
-wow_class_spec = {"Вар" : ["Прот", "Фури", "Армс"], "Пал": ["Прот", "Ретри", "Холи"],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем", "Рестор"],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["Брю", "ВВ", "МВ"] ,"Друид" : ["Сова", "Медвед", "Пень", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли", "Блад"] ,"ДХ" : ["Хавок", "Венженс"],"Дракарис": ["ДД", "Хил"]}
+members = ["Ферал","Реноме","Хафний","Славик","Мунстик","Зирич","Тексер","Заец","Кот","Тигр","Пинки","Плюхен","Сергей Блинов","Суса","Алриша","Настася","Влад","Перламутра","Джон","Юм","Ламун","Лиса","Саншаин","Виталик","Вуф","Допельгангер","Арти","Жирон","Ворки","@saendra_m","Анидакс","Светич","Никита","Яхени", "Тунек", "Смаколик"]
+wow_class_spec = {"Вар" : ["Прот", "Фури", "Армс"], "Пал": ["Прот", "Ретри", "Холи"],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем", "Рестор"],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["Брю", "ВВ", "МВ"] ,"Друид" : ["Сова", "Медвед", "Пень", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли", "Блад"] ,"ДХ" : ["Хавок", "Венженс"],"Дракарис": ["ДД", "Хил", "Гнида"]}
 
 tanks = ["Вар Прот", "Пал Прот", "Монк Брю", "Друид Медвед", "ДК Блуд","ДХ Венженс",]
-dds = {"Вар" : ["Фури", "Армс"], "Пал": ["Ретри",],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем",],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["ВВ",] ,"Друид" : ["Сова", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли",] ,"ДХ" : ["Хавок",],"Дракарис": ["ДД", "АУГА"]}
+dds = {"Вар" : ["Фури", "Армс"], "Пал": ["Ретри",],"Хант" : ["БМ", "ММ", "Допель"],"Шаман" : ["Енх", "Элем",],"Маг" : ["Фаер", "Фрост", "Аркан"],"Варлок" : ["Демон", "Дестр", "Аффлик"] ,"Монк" : ["ВВ",] ,"Друид" : ["Сова", "Вуфёнак"],"ДК" : ["Фрост", "Анхоли",] ,"ДХ" : ["Хавок",],"Дракарис": ["ДД", "Гнида"]}
 healers = ["Пал Холи","Шаман Рестор","Монк МВ","Друид Пень","Дракарис Хил"]
 
 
@@ -183,9 +183,12 @@ async def pukkek(message: Message, bot: Bot):
     await hybrid_check(message.reply_to_message, bot, media.bottom_flip)
 
 
-async def mirroring(message: Message, bot: Bot, command: CommandObject):
-    func = media.left_flip if '/lmirr' in command.command else media.right_flip
-    await hybrid_check(message.reply_to_message, bot, func)
+async def mirroring_left(message: Message, bot: Bot):
+    await hybrid_check(message.reply_to_message, bot, media.left_flip)
+
+
+async def mirroring_right(message: Message, bot: Bot):
+    await hybrid_check(message.reply_to_message, bot, media.right_flip)
 
 
 async def implode(message: Message, bot: Bot, command: CommandObject):
@@ -304,7 +307,7 @@ async def video_check(message: Message, bot: Bot, func, args=None):
     if not message:
         raise UserInputException('(˘ω˘) нет медиа в реплайчике)')
     content_type = message.content_type
-    if content_type is ContentType.VIDEO \
+    if content_type is ContentType.VIDEO or ContentType.VIDEO_NOTE \
             or content_type is ContentType.ANIMATION \
             or (content_type is ContentType.STICKER and (message.sticker.is_animated or message.sticker.is_video)) \
             or (content_type is ContentType.TEXT and is_video_link(message.text)) \

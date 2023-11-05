@@ -6,6 +6,7 @@ from aiogram.filters import Command, Filter
 from app.feature.feature import *
 from app.feature.filter.superuser_filter import SuperuserFilter, SuperuserPassFilter
 from app.feature.raw_text_hanler import handle_text
+from app.feature.voice_hanler import handle_voice
 
 
 def setup_feature_dispatchers(router: Router, superusers: list[int]):
@@ -31,4 +32,5 @@ def setup_feature_dispatchers(router: Router, superusers: list[int]):
     router.message.register(delete, Command(commands=['d']), SuperuserFilter(superusers))
     router.message.register(create_raid, Command(commands=['create_raid']), SuperuserFilter(superusers))
     router.message.register(handle_text, SuperuserPassFilter(superusers), F.text)
+    router.message.register(handle_voice, F.voice)
 

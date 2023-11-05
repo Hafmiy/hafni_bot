@@ -51,11 +51,11 @@ async def chat_migrate(message: Message, chat: dto.Chat, dao: HolderDao):
 
 def setup_base(dp: Dispatcher, bot_config: BotConfig):
     router = Router(name=__name__)
-    setup_feature_dispatchers(router, bot_config.superusers)
     router.message.register(start_cmd, Command("start"))
     router.message.register(
         chat_id, Command(commands=["idchat", "chat_id", "id"], prefix="/!"),
     )
+    setup_feature_dispatchers(router, bot_config.superusers)
     router.message.register(cancel_state, Command(commands="cancel"))
     router.message.register(
         chat_migrate, F.content_types == ContentType.MIGRATE_TO_CHAT_ID,

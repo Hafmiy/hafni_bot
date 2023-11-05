@@ -149,3 +149,5 @@ dmypy.json
 
 /temp/
 /config/
+
+/app/config/const_config.py
